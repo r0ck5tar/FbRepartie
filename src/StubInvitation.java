@@ -12,7 +12,6 @@ public class StubInvitation extends UnicastRemoteObject implements IStubInvitati
 
     protected StubInvitation(Mur mur) throws RemoteException {
         this.mur = mur;
-
     }
 
     /*
@@ -20,11 +19,10 @@ public class StubInvitation extends UnicastRemoteObject implements IStubInvitati
      */
     @Override
     public IMur accept(IMur ami)  throws RemoteException {
-        if(mur.getInvitationsEnAttente().contains(ami)) {
-            return mur;
-        }
+        //TODO: test si  mur.getInvitationsEnAttente().contains(ami)
 
-        return null;
+            return mur;
+
     }
 
     @Override
@@ -53,6 +51,12 @@ public class StubInvitation extends UnicastRemoteObject implements IStubInvitati
         StubInvitation stubInviteMe = (StubInvitation) Annuaire.getRegistryInvitation().lookup(nom);
         stubInviteMe.invite(this);
         mur.getDemandeAmiEnAttente().add(stubInviteMe);
+    }
+
+    public void accepte2(String nom) throws RemoteException, NotBoundException {
+        StubInvitation stubAcceptMe = (StubInvitation) Annuaire.getRegistryInvitation().lookup(nom);
+        Mur nouvelAmi =  (Mur) stubAcceptMe.accept(this.getMur());
+        this.mur.getListeAmis().add(nouvelAmi);
     }
 
     /*Getter-Setter*/

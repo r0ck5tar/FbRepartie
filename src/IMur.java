@@ -10,7 +10,7 @@ public interface IMur extends Remote{
 
     public ArrayList<String> getContenu() throws RemoteException;
 
-    public ArrayList<IStubInvitation> getListeAmis() throws RemoteException ;
+    public ArrayList<IMur> getListeAmis() throws RemoteException ;
 
 
     //TODO: vérifie que ArrayList est sérialisable.

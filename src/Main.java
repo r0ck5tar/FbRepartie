@@ -23,7 +23,15 @@ public class Main {
             System.out.println("taille de demande en attente pour stub1: " + stub1.getMur().getInvitationsEnAttente().size());
             System.out.println("taille de demande d'ami pour stub2: " + stub2.getMur().getDemandeAmiEnAttente().size());
             //le stub1 demande qui est stub2
-            stub2.quiEsTu();
+            System.out.println(stub2.quiEsTu());
+            stub2.accepte2("invitation1");
+
+            System.out.println("taille de la liste d'amis de stub1: " + stub1.getMur().getListeAmis().size());
+            System.out.println("taille de la liste d'amis de stub2: " + stub2.getMur().getListeAmis().size());
+            stub2.getMur().getListeAmis().get(0).notifier("heyheyhey I notify You !");
+            System.out.println("taille de la liste de notification de stub1: " + stub1.getMur().getNotifications().size());
+            stub1.getMur().lireNotification();
+
 
         } catch (NotBoundException e) {
             e.printStackTrace();

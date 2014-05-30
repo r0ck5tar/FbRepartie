@@ -18,6 +18,8 @@ public class Mur extends UnicastRemoteObject implements IMur {
         this.nom = nom;
         this.invitationsEnAttente = new ArrayList<IStubInvitation>();
         this.demandeAmiEnAttente = new ArrayList<IStubInvitation>();
+        this.listeAmis = new ArrayList<IMur>();
+        this.notifications = new ArrayList<String>();
     }
 
     /*
@@ -34,8 +36,8 @@ public class Mur extends UnicastRemoteObject implements IMur {
     }
 
     @Override
-    public ArrayList<IStubInvitation> getListeAmis()   throws RemoteException{
-        return null;
+    public ArrayList<IMur> getListeAmis()   throws RemoteException{
+        return this.listeAmis;
     }
 
     /*
@@ -56,7 +58,9 @@ public class Mur extends UnicastRemoteObject implements IMur {
     public void lireNotification() {
         //enlever la dernière notification de la liste de notifications
 
-        notifications.remove(0);
+        if(notifications.size()>0){
+            notifications.remove(0);
+        }
     }
 
 
@@ -77,4 +81,8 @@ public class Mur extends UnicastRemoteObject implements IMur {
     public ArrayList<IStubInvitation> getDemandeAmiEnAttente() {
         return demandeAmiEnAttente;
     }
+
+    public ArrayList<String> getNotifications(){return notifications;}
+
+
 }
