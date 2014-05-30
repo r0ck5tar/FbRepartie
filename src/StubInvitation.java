@@ -1,4 +1,6 @@
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -7,7 +9,9 @@ import java.rmi.server.UnicastRemoteObject;
 public class StubInvitation extends UnicastRemoteObject implements IStubInvitation{
     private Mur mur;
 
-    protected StubInvitation() throws RemoteException {
+    protected StubInvitation(Mur mur) throws RemoteException {
+        this.mur = mur;
+        
     }
 
     /*
@@ -24,6 +28,8 @@ public class StubInvitation extends UnicastRemoteObject implements IStubInvitati
 
     @Override
     public void invite(IStubInvitation inviteur)  throws RemoteException {
+        //test si ils les deux users sont pas deja amis.
+
         mur.getInvitationsEnAttente().add(inviteur);
     }
 
@@ -35,10 +41,14 @@ public class StubInvitation extends UnicastRemoteObject implements IStubInvitati
     /*
         Méthodes locales
      */
-    public void invite2(String nom) {
+    public void invite2(String nom) throws RemoteException{
         //rechercher dans le RMI registry
         //récupère le stubInvitation  xxx qui corespond au nom
         //appeler xxx.invite(this);
         //rajouter xxx à la liste DemandeAmisEnAttente
+        Registry rmiReg = LocateRegistry.getRegistry(nom);
+
+
+       // mur.getDemandeAmiEnAttente().add()
     }
 }

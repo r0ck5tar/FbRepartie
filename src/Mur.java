@@ -9,12 +9,13 @@ public class Mur extends UnicastRemoteObject implements IMur {
     private String nom;
     private ArrayList<String> messagesDeMur;
     private ArrayList<IMur> listeAmis;
-    private ArrayList<IStubInvitation> invitationsEnAttente;
-    private ArrayList<IStubInvitation> demandeAmiEnAttente;
+    private ArrayList<IStubInvitation> invitationsEnAttente; //c'est lui qui invite
+    private ArrayList<IStubInvitation> demandeAmiEnAttente; //c'est moi qui invite
     private ArrayList<String> notifications;
 
-    protected Mur(int port) throws RemoteException {
+    protected Mur(int port, String nom) throws RemoteException {
         super(port);
+        this.nom = nom;
     }
 
     /*
@@ -52,6 +53,8 @@ public class Mur extends UnicastRemoteObject implements IMur {
 
     public void lireNotification() {
         //enlever la dernière notification de la liste de notifications
+
+        notifications.remove(0);
     }
 
 
