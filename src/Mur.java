@@ -16,6 +16,8 @@ public class Mur extends UnicastRemoteObject implements IMur {
     protected Mur(int port, String nom) throws RemoteException {
         super(port);
         this.nom = nom;
+        this.invitationsEnAttente = new ArrayList<IStubInvitation>();
+        this.demandeAmiEnAttente = new ArrayList<IStubInvitation>();
     }
 
     /*
