@@ -14,6 +14,5 @@ public interface Mur extends Remote{
 
     public String getNom() throws RemoteException;
 
-
     //TODO: vérifie que ArrayList est sérialisable.
 }

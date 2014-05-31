@@ -19,6 +19,7 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
      */
     @Override
     public Mur accept(Mur ami)  throws RemoteException {
+        System.out.println("accept called");
         Registry registryInvitation = LocateRegistry.getRegistry(1096);
         Invitation stubAmi = null;
         try {
@@ -30,10 +31,15 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
         if(stubAmi != null) {
             if(mur.getInvitationsEnAttente().contains(stubAmi)) {
                 mur.getListeAmis().add(ami);
+                System.out.println(mur.getNom() + " est maintenant ami avec " + stubAmi.quiEsTu());
+                stubAmi.retourAccept(mur);
+                mur.getInvitationsEnAttente().remove(stubAmi);
                 return mur;
             }
+            else{
+                System.out.println(mur.getNom() + " n'a pas pu devenir ami avec " + stubAmi.quiEsTu());
+            }
         }
-
 
         return null;
     }
@@ -42,7 +48,9 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
     public void invite(Invitation inviteur)  throws RemoteException {
         if(!mur.getInvitationsEnAttente().contains(inviteur)){
             mur.getInvitationsEnAttente().add(inviteur);
+            System.out.println(mur.getNom() + " a reçu une invitation de " + inviteur.quiEsTu());
             inviteur.retourInvitation((Invitation) this);
+
         }
     }
 
@@ -55,6 +63,23 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
     public void retourInvitation(Invitation invitation) throws RemoteException {
         if(!mur.getDemandeAmiEnAttente().contains(invitation)) {
             mur.getDemandeAmiEnAttente().add(invitation);
+            System.out.println(mur.getNom()
+                    + " a rajouté l'invitation de " + invitation.quiEsTu() +
+                    " à sa liste de Demande d'amis en attente");
+        }
+    }
+
+    @Override
+    public void retourAccept(Mur murAmi) throws RemoteException {
+        try {
+            Invitation stubAmi = (Invitation) LocateRegistry.getRegistry(1096).lookup(murAmi.getNom());
+            if(mur.getDemandeAmiEnAttente().contains(stubAmi)) {
+                mur.getDemandeAmiEnAttente().remove(stubAmi);
+                mur.getListeAmis().add(murAmi);
+                System.out.println(mur.getNom() + " est maintenant ami avec " + stubAmi.quiEsTu());
+            }
+        } catch (NotBoundException e) {
+            e.printStackTrace();
         }
     }
 }

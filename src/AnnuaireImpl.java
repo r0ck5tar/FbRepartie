@@ -32,6 +32,8 @@ public class AnnuaireImpl extends UnicastRemoteObject implements Annuaire{
         InvitationImpl invitation = new InvitationImpl(mur);
         registryInvitation.rebind(nom, invitation);
         registryMur.rebind(nom, mur);
+
+        System.out.println("l'utilisateur " + nom + " a été créé");
     }
 
     @Override
