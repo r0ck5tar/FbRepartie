@@ -61,7 +61,7 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
         if(!mur.getDemandeAmiEnAttente().contains(invitation)) {
             mur.getDemandeAmiEnAttente().add(invitation);
             System.out.println(mur.getNom()
-                    + " a rajouté l'invitation de " + invitation.quiEsTu() +
+                    + " a rajouté le stub de " + invitation.quiEsTu() +
                     " à sa liste de Demande d'amis en attente");
         }
     }
