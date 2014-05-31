@@ -19,22 +19,42 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
      */
     @Override
     public Mur accept(Mur ami)  throws RemoteException {
-        //TODO: test si  mur.getInvitationsEnAttente().contains(ami)
-        Registry registryInvitation = LocateRegistry.getRegistry(8080);
+        Registry registryInvitation = LocateRegistry.getRegistry(1096);
+        Invitation stubAmi = null;
+        try {
+            stubAmi = (Invitation) registryInvitation.lookup(ami.getNom());
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
 
-        return mur;
+        if(stubAmi != null) {
+            if(mur.getInvitationsEnAttente().contains(stubAmi)) {
+                mur.getListeAmis().add(ami);
+                return mur;
+            }
+        }
 
+
+        return null;
     }
 
     @Override
     public void invite(Invitation inviteur)  throws RemoteException {
         if(!mur.getInvitationsEnAttente().contains(inviteur)){
             mur.getInvitationsEnAttente().add(inviteur);
+            inviteur.retourInvitation(this);
         }
     }
 
     @Override
     public String quiEsTu() throws RemoteException {
         return mur.getNom();
+    }
+
+    @Override
+    public void retourInvitation(InvitationImpl invitation) throws RemoteException {
+        if(!mur.getDemandeAmiEnAttente().contains(invitation)) {
+            mur.getDemandeAmiEnAttente().add(invitation);
+        }
     }
 }

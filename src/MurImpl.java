@@ -11,7 +11,7 @@ public class MurImpl extends UnicastRemoteObject implements Mur {
     private ArrayList<String> messagesDeMur;
     private ArrayList<Mur> listeAmis;
     private ArrayList<Invitation> invitationsEnAttente; //c'est lui qui invite
-    private ArrayList<Invitation> demandeAmiEnAttente; //c'est moi qui invite
+    private ArrayList<Invitation> demandeAmiEnAttente; //c'est moi qui demande
     private ArrayList<String> notifications;
 
     protected MurImpl(int port, String nom, String password) throws RemoteException {

@@ -10,5 +10,7 @@ public interface Invitation extends Remote{
 
     public void invite(Invitation inviteur) throws RemoteException;
 
-    public String quiEsTu() throws RemoteException ;
+    public String quiEsTu() throws RemoteException;
+
+    void retourInvitation(InvitationImpl invitation)throws RemoteException;
 }
