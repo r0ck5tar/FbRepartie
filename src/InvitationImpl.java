@@ -18,7 +18,7 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
         Méthodes distantes
      */
     @Override
-    public Mur accept(Mur ami)  throws RemoteException {
+    public void accept(Mur ami)  throws RemoteException {
         System.out.println("accept called");
         Registry registryInvitation = LocateRegistry.getRegistry(1096);
         Invitation stubAmi = null;
@@ -34,14 +34,11 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
                 System.out.println(mur.getNom() + " est maintenant ami avec " + stubAmi.quiEsTu());
                 stubAmi.retourAccept(mur);
                 mur.getInvitationsEnAttente().remove(stubAmi);
-                return mur;
             }
             else{
                 System.out.println(mur.getNom() + " n'a pas pu devenir ami avec " + stubAmi.quiEsTu());
             }
         }
-
-        return null;
     }
 
     @Override

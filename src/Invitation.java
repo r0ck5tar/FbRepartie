@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
  */
 public interface Invitation extends Remote{
 
-    public Mur accept(Mur ami) throws RemoteException;
+    public void accept(Mur ami) throws RemoteException;
 
     public void invite(Invitation inviteur) throws RemoteException;
 
