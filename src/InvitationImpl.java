@@ -42,7 +42,7 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
     public void invite(Invitation inviteur)  throws RemoteException {
         if(!mur.getInvitationsEnAttente().contains(inviteur)){
             mur.getInvitationsEnAttente().add(inviteur);
-            inviteur.retourInvitation(this);
+            inviteur.retourInvitation((Invitation) this);
         }
     }
 
@@ -52,7 +52,7 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
     }
 
     @Override
-    public void retourInvitation(InvitationImpl invitation) throws RemoteException {
+    public void retourInvitation(Invitation invitation) throws RemoteException {
         if(!mur.getDemandeAmiEnAttente().contains(invitation)) {
             mur.getDemandeAmiEnAttente().add(invitation);
         }
