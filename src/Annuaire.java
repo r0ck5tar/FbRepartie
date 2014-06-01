@@ -8,7 +8,7 @@ public interface Annuaire extends Remote {
 
     public void createUser (String nom, String password) throws RemoteException;
 
-    public Mur login(String nom, String password) throws RemoteException;
+    public Utilisateur login(String nom, String password) throws RemoteException;
 
     public Invitation findUser(String nom) throws RemoteException;
 }

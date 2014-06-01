@@ -19,7 +19,6 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
      */
     @Override
     public void accept(Mur ami)  throws RemoteException {
-        System.out.println("accept called");
         Registry registryInvitation = LocateRegistry.getRegistry(1096);
         Invitation stubAmi = null;
         try {
@@ -29,11 +28,11 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
         }
 
         if(stubAmi != null) {
-            if(mur.getInvitationsEnAttente().contains(stubAmi)) {
+            if(mur.getDemandeAmiEnAttente().contains(stubAmi)) {
                 mur.getListeAmis().add(ami);
                 System.out.println(mur.getNom() + " est maintenant ami avec " + stubAmi.quiEsTu());
                 stubAmi.retourAccept(mur);
-                mur.getInvitationsEnAttente().remove(stubAmi);
+                mur.getDemandeAmiEnAttente().remove(stubAmi);
             }
             else{
                 System.out.println(mur.getNom() + " n'a pas pu devenir ami avec " + stubAmi.quiEsTu());
@@ -70,8 +69,8 @@ public class InvitationImpl extends UnicastRemoteObject implements Invitation {
     public void retourAccept(Mur murAmi) throws RemoteException {
         try {
             Invitation stubAmi = (Invitation) LocateRegistry.getRegistry(1096).lookup(murAmi.getNom());
-            if(mur.getDemandeAmiEnAttente().contains(stubAmi)) {
-                mur.getDemandeAmiEnAttente().remove(stubAmi);
+            if(mur.getInvitationsEnAttente().contains(stubAmi)) {
+                mur.getInvitationsEnAttente().remove(stubAmi);
                 mur.getListeAmis().add(murAmi);
                 System.out.println(mur.getNom() + " est maintenant ami avec " + stubAmi.quiEsTu());
             }

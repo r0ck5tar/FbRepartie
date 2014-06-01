@@ -1,3 +1,4 @@
+import javax.rmi.CORBA.Util;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -11,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class AnnuaireImpl extends UnicastRemoteObject implements Annuaire{
     private Registry registryInvitation;
     private Registry registryMur;
+    private Registry registryUtilisateur;
 
     public AnnuaireImpl() throws RemoteException {
 
@@ -25,22 +27,31 @@ public class AnnuaireImpl extends UnicastRemoteObject implements Annuaire{
         } catch (RemoteException e) {
             registryMur = LocateRegistry.getRegistry(1097);
         }
+
+        try {
+            registryUtilisateur = LocateRegistry.createRegistry(1098);
+        } catch (RemoteException e) {
+            registryUtilisateur = LocateRegistry.getRegistry(1098);
+        }
     }
 
     public void createUser (String nom, String password) throws RemoteException {
         MurImpl mur = new MurImpl(1097, nom, password);
         InvitationImpl invitation = new InvitationImpl(mur);
+        Utilisateur utilisateur = new UtilisateurImpl(mur, invitation);
+
         registryInvitation.rebind(nom, invitation);
         registryMur.rebind(nom, mur);
+        registryUtilisateur.rebind(nom, utilisateur);
 
         System.out.println("l'utilisateur " + nom + " a été créé");
     }
 
     @Override
-    public Mur login(String nom, String password) throws RemoteException {
+    public Utilisateur login(String nom, String password) throws RemoteException {
 
         try {
-            MurImpl user = (MurImpl) registryMur.lookup(nom);
+            UtilisateurImpl user = (UtilisateurImpl) registryUtilisateur.lookup(nom);
             if(password.equals(user.getPassword())){
                 return user;
             }
